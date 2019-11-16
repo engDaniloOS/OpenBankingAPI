@@ -23,6 +23,9 @@ namespace OpenBankingApi.Repository
         #endregion Construtores
 
         public async Task<Cliente> GetClientePor(long cpf)
-            => await contexto.Cliente.Where(c => c.Pessoa.Cpf == cpf && c.Pessoa.Cliente.IsAtivo).FirstOrDefaultAsync();
+            => await contexto.Cliente
+                             .Where(c => c.Pessoa.Cpf == cpf && c.Pessoa.Cliente.IsAtivo)
+                             .Include(c => c.Pessoa)
+                             .FirstOrDefaultAsync();
     }
 }

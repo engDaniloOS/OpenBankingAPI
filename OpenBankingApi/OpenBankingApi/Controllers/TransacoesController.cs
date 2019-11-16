@@ -33,13 +33,13 @@ namespace OpenBankingApi.Controllers
             if (transacao.Conta == null)
                 return NotFound(msgNaoEncontrado);
 
-            return Ok();
+            return Ok(new { novoSaldo = transacao.Conta.Saldo });
         }
         #endregion Métodos auxiliares
 
         [HttpGet]
         [Route("{usuariocpf}/{periodoId}")]
-        public async Task<IActionResult> ConsultarExtrato(int usuarioCpf, int periodoId = (int)PeriodoExtrato.MES)
+        public async Task<IActionResult> ConsultarExtrato(long usuarioCpf, int periodoId = (int)PeriodoExtrato.MES)
         {
             var transacoes = await service.ListarTransacoes(usuarioCpf, periodoId);
            
@@ -65,14 +65,14 @@ namespace OpenBankingApi.Controllers
         }
 
         [HttpPost]
-        [Route("depositar")]
-        public async Task<IActionResult> RealizarDeposito([FromBody]long usuarioCpf, [FromBody]decimal valor)
-            => MontarResultado(await service.Depositar(usuarioCpf, valor), service.Erro);
+        [Route("depositar/{clientecpf}")]
+        public async Task<IActionResult> RealizarDeposito(long clientecpf, [FromBody]decimal valor)
+            => MontarResultado(await service.Depositar(clientecpf, valor), service.Erro);
 
         [HttpPost]
-        [Route("sacar")]
-        public async Task<IActionResult> RealizarSaque([FromBody]long usuarioCpf, [FromBody]decimal valor)
-            => MontarResultado(await service.Sacar(usuarioCpf, valor), service.Erro);
+        [Route("sacar/{clientecpf}")]
+        public async Task<IActionResult> RealizarSaque(long clientecpf, [FromBody]decimal valor)
+            => MontarResultado(await service.Sacar(clientecpf, valor), service.Erro);
 
     }
 }
