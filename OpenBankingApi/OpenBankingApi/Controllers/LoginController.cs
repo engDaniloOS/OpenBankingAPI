@@ -17,7 +17,7 @@ namespace OpenBankingApi.Controllers
     public class LoginController : ControllerBase
     {
         #region Campos
-        private const string msgErro = "Credênciais incorretas!";
+        private const string msgErro = "Credenciais incorretas!";
 
         private readonly IConfiguration configuration;
         private readonly ILoginService service;

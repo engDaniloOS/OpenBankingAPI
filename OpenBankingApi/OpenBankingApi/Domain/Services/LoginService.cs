@@ -21,7 +21,8 @@ namespace OpenBankingApi.Domain.Services
         {
             try
             {
-                return await repository.GetAutenticado(credenciais);
+                var resultado = await repository.GetAutenticado(credenciais);
+                return resultado ?? new Credenciais(); 
             }
             catch (Exception)
             {
