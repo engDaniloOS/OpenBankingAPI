@@ -1,9 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OpenBankingApi.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OpenBankingApi.Infrastructure
 {
@@ -21,6 +17,7 @@ namespace OpenBankingApi.Infrastructure
         public DbSet<ContaTipo> ContaTipos { get; set; }
         public DbSet<TransacaoTipo> TransacaoTipos { get; set; }
         public DbSet<Transacao> Transacaoes { get; set; }
+        public DbSet<Credenciais> Credenciais { get; set; }
         #endregion DbSet
 
         protected override void OnModelCreating(ModelBuilder builder)

@@ -144,6 +144,31 @@ namespace OpenBankingApi.Migrations
                     b.ToTable("ContaTipos");
                 });
 
+            modelBuilder.Entity("OpenBankingApi.Domain.Models.Credenciais", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ClienteId");
+
+                    b.Property<DateTime>("DataCriacao");
+
+                    b.Property<DateTime>("DataModificacao");
+
+                    b.Property<bool>("IsAtivo");
+
+                    b.Property<string>("Senha");
+
+                    b.Property<string>("Usuario");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.ToTable("Credenciais");
+                });
+
             modelBuilder.Entity("OpenBankingApi.Domain.Models.Endereco", b =>
                 {
                     b.Property<int>("Id")
@@ -281,6 +306,14 @@ namespace OpenBankingApi.Migrations
                     b.HasOne("OpenBankingApi.Domain.Models.ContaTipo", "ContaTipo")
                         .WithMany()
                         .HasForeignKey("ContaTipoId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("OpenBankingApi.Domain.Models.Credenciais", b =>
+                {
+                    b.HasOne("OpenBankingApi.Domain.Models.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

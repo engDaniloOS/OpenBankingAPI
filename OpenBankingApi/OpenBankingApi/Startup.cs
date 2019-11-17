@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using OpenBankingApi.Domain.Services;
+using OpenBankingApi.Domain.Services.Interfaces;
 using OpenBankingApi.Infrastructure;
 using OpenBankingApi.Repository;
 using OpenBankingApi.Repository.Interfaces;
+using System;
+using System.Text;
 
 namespace OpenBankingApi
 {
@@ -30,13 +28,33 @@ namespace OpenBankingApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            #region Authorization
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = "openBanking",
+                    ValidAudience = "openBanking",
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["SecurityKey"]))
+                };
+            });
+            #endregion
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
             services.AddDbContext<Contexto>(option => option.UseSqlServer(ConfigureConnectionString()));
 
+            #region Injeçao de Dependência
             services.AddTransient<ITransacaoService, TransacaoService>();
             services.AddTransient<ITrasacaoRepository, TransacaoRepository>();
             services.AddTransient<IClienteRepository, ClienteRepository>();
             services.AddTransient<IContaRepository, ContaRepository>();
+            services.AddTransient<ILoginService, LoginService>();
+            services.AddTransient<ILoginRepository, LoginRepository>();
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +70,9 @@ namespace OpenBankingApi
                 app.UseHsts();
             }
 
+            //loggerFactory.AddProvider(new LoggerDataBaseProvider());
+
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

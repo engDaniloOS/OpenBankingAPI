@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OpenBankingApi.Domain.Enumerables;
 using OpenBankingApi.Domain.Models;
 using OpenBankingApi.Domain.Services;
@@ -9,6 +11,7 @@ namespace OpenBankingApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class TransacoesController : ControllerBase
     {
         #region Campos
@@ -38,7 +41,7 @@ namespace OpenBankingApi.Controllers
         #endregion Métodos auxiliares
 
         [HttpGet]
-        [Route("{usuariocpf}/{periodoId}")]
+        [Route("{periodoId}/{usuariocpf}")]
         public async Task<IActionResult> ConsultarExtrato(long usuarioCpf, int periodoId = (int)PeriodoExtrato.MES)
         {
             var transacoes = await service.ListarTransacoes(usuarioCpf, periodoId);
