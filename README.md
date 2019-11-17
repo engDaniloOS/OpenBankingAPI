@@ -4,16 +4,16 @@
 ##Configurações do sistema
 - Banco de Dados: é utilizado o banco de dados SQL Server em Arquivo, que esta dentro do projeto. Logo, é possível executar a aplicação em qualquer computador sem que haja necessidade de novas configurações.
 
-- Autenticação: O sistema utiliza autenticação JWT. Para consumir os endpoints é necessário acrescentar ao cabeçalho um token do tipo "bearer". O token pode ser gerado a partir da rota de login. Por default, ao realizar o login podemos utilizar o seguinte corpo para a requisição:
+- Autenticação: O sistema utiliza autenticação JWT. Para consumir os endpoints é necessário acrescentar ao cabeçalho um token do tipo "bearer". O token pode ser gerado a partir da rota de login. Por default, para realizar o login podemos utilizar o seguinte corpo para a requisição:
 
  {
   "usuario" : "usuario",
   "senha" : "senha" 
  }
  
- O token esta configurado para expirar após 4 minuto.
+ O token esta configurado para expirar após 4 minutos.
  
- O cabeçalho das requisições devera conter a chave "Authorization" com o valor "bearer tokenGeradoAoRealizarLogin"
+ Os cabeçalhos das requisições deverão conter a chave "Authorization" com o valor "bearer tokenGeradoAoRealizarLogin"
  
 ##Rotas
 - Login (POST): https://localhost:44368/api/login
