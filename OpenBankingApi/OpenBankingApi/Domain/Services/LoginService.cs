@@ -1,4 +1,5 @@
 ﻿using OpenBankingApi.Domain.Models;
+using OpenBankingApi.Domain.Models.Dtos;
 using OpenBankingApi.Domain.Services.Interfaces;
 using OpenBankingApi.Repository.Interfaces;
 using System;
@@ -12,12 +13,9 @@ namespace OpenBankingApi.Domain.Services
         private readonly ILoginRepository repository;
         #endregion
 
-        public LoginService(ILoginRepository repository)
-        {
-            this.repository = repository;
-        }
+        public LoginService(ILoginRepository repository) => this.repository = repository;
 
-        public async Task<Credenciais> Autenticar(Credenciais credenciais)
+        public async Task<Credenciais> Autenticar(CredenciaisDto credenciais)
         {
             try
             {

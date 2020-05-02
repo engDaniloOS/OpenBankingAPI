@@ -41,7 +41,7 @@ namespace OpenBankingApi.Controllers
         #endregion Métodos auxiliares
 
         [HttpGet]
-        [Route("{periodoId}/{usuariocpf}")]
+        [Route("{periodoId}/{usuarioCpf}")]
         public async Task<IActionResult> ConsultarExtrato(long usuarioCpf, int periodoId = (int)PeriodoExtrato.MES)
         {
             var transacoes = await service.ListarTransacoes(usuarioCpf, periodoId);

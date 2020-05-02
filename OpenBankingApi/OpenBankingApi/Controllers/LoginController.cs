@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using OpenBankingApi.Domain.Models;
+using OpenBankingApi.Domain.Models.Dtos;
 using OpenBankingApi.Domain.Services.Interfaces;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -33,7 +34,7 @@ namespace OpenBankingApi.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Logar([FromBody] Credenciais credenciais)
+        public async Task<IActionResult> Logar([FromBody] CredenciaisDto credenciais)
         {
             var autenticado = await service.Autenticar(credenciais);
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OpenBankingApi.Domain.Models;
+using OpenBankingApi.Domain.Models.Dtos;
 using OpenBankingApi.Infrastructure;
 using OpenBankingApi.Repository.Interfaces;
 using System.Linq;
@@ -14,13 +15,10 @@ namespace OpenBankingApi.Repository
         #endregion
 
         #region Construtores
-        public LoginRepository(Contexto contexto)
-        {
-            this.contexto = contexto;
-        }
+        public LoginRepository(Contexto contexto) => this.contexto = contexto;
         #endregion
 
-        public async Task<Credenciais> GetAutenticado(Credenciais credenciais)
+        public async Task<Credenciais> GetAutenticado(CredenciaisDto credenciais)
             => await contexto.Credenciais
                              .Where(c => c.IsAtivo && c.Usuario == credenciais.Usuario && c.Senha == credenciais.Senha)
                              .Include(c => c.Cliente)
