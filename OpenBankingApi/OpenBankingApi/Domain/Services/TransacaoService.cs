@@ -43,14 +43,16 @@ namespace OpenBankingApi.Domain.Services
         }
         #endregion Metodos auxiliares
 
-        public async Task<List<Transacao>> ListarTransacoes(long cpf, int periodoId)
+        public async Task<List<Transacao>> ListarTransacoes(long cpf, PeriodoExtrato periodoId)
         {
             try
             {
                 if (!Enum.IsDefined(typeof(PeriodoExtrato), periodoId))
                     throw new ArgumentException("Período inválido!");
 
-                return await repository.ListarTransacoes(await ValidaClientePor(cpf), periodoId);
+                int periodo = Convert.ToInt32(periodoId);
+
+                return await repository.ListarTransacoes(await ValidaClientePor(cpf), periodo);
             }
             catch (Exception ex)
             {

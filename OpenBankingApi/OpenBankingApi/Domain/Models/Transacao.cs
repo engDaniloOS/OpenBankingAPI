@@ -10,6 +10,8 @@ namespace OpenBankingApi.Domain.Models
         [Required]
         public decimal Valor { get; set; }
         public int TransacaoTipoId { get; set; }
+        public decimal ValorVelho { get; set; }
+        public decimal ValorNovo { get; set; }
         public TransacaoTipo TransacaoTipo { get; set; }
         public int ContaId { get; set; }
         public Conta Conta { get; set; }

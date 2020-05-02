@@ -32,7 +32,9 @@ namespace OpenBankingApi.Repository
                     var conta = await contexto.Contas
                             .Where(c => c.IsAtivo && c.Cliente.Pessoa.Cpf == cliente.Pessoa.Cpf).FirstOrDefaultAsync();
 
-                    if (conta == null) return new Transacao(); ;
+                    if (conta == null) return new Transacao();
+
+                    decimal saldoVelho = conta.Saldo;
 
                     conta.Saldo = (tipo == TransacaoTipos.SAQUE) ? conta.Saldo - valor :
                                   (tipo == TransacaoTipos.DEPOSITO) ? conta.Saldo + valor :
@@ -47,6 +49,8 @@ namespace OpenBankingApi.Repository
                         Data = DateTime.Now,
                         ContaId = conta.Id,
                         Valor = valor,
+                        ValorVelho = saldoVelho,
+                        ValorNovo = conta.Saldo,
                         TransacaoTipoId = (int)tipo
                     };
 
@@ -71,7 +75,7 @@ namespace OpenBankingApi.Repository
 
         public async Task<List<Transacao>> ListarTransacoes(Cliente cliente, int periodoId)
         => await contexto.Transacaoes
-                            .Where(t => t.Conta.ClienteId == cliente.Id && t.Data >= t.Data.AddDays(periodoId * -1))
+                            .Where(t => t.Conta.ClienteId == cliente.Id && t.Data >= DateTime.Now.AddDays(periodoId * -1))
                             .Include(t => t.TransacaoTipo)
                             .Include(t => t.Conta)
                             .ToListAsync();

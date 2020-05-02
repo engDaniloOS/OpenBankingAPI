@@ -42,7 +42,8 @@ namespace OpenBankingApi.Controllers
 
         [HttpGet]
         [Route("{periodoId}/{usuarioCpf}")]
-        public async Task<IActionResult> ConsultarExtrato(long usuarioCpf, int periodoId = (int)PeriodoExtrato.MES)
+        [AllowAnonymous]
+        public async Task<IActionResult> ConsultarExtrato(long usuarioCpf, PeriodoExtrato periodoId = PeriodoExtrato.MES)
         {
             var transacoes = await service.ListarTransacoes(usuarioCpf, periodoId);
            
@@ -59,7 +60,8 @@ namespace OpenBankingApi.Controllers
                           {
                               tipo = transacao.TransacaoTipo.Tipo,
                               valor = transacao.Valor,
-                              saldo = transacao.Conta.Saldo,
+                              valorVelho = transacao.ValorVelho,
+                              valorNovo = transacao.ValorNovo,
                               data = transacao.Data.ToString("dd/MM/yyyy"),
                               hora = transacao.Data.ToString("HH:mm:ss"),
                           });

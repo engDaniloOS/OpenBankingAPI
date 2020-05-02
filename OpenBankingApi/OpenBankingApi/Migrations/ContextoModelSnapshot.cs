@@ -253,6 +253,10 @@ namespace OpenBankingApi.Migrations
 
                     b.Property<decimal>("Valor");
 
+                    b.Property<decimal>("ValorNovo");
+
+                    b.Property<decimal>("ValorVelho");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ContaId");
