@@ -92,21 +92,23 @@ namespace OpenBankingApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
+            bool isDevelopment = env.IsDevelopment();
+
+            if (isDevelopment)
                 app.UseDeveloperExceptionPage();
-            }
             else
-            {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
 
-            //loggerFactory.AddProvider(new LoggerDataBaseProvider());
-
+            app.UseStaticFiles();
             app.UseSwagger();
+
             app.UseSwaggerUI(s =>
             {
+                if (isDevelopment)
+                {
+                    s.InjectStylesheet("/swagger-ui/custom.css");
+                    s.InjectJavascript("/swagger-ui/environment.js");
+                }
                 s.RoutePrefix = string.Empty;
                 s.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
             });
