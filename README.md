@@ -13,7 +13,7 @@
  
  O token esta configurado para expirar após 4 minutos.
  
- Os cabeçalhos das requisições deverão conter a chave "Authorization" com o valor "bearer tokenGeradoAoRealizarLogin"
+ Os cabeçalhos das requisições deverão conter a chave "Authorization" com o valor "bearer tokenGeradoAoRealizarLogin" 
  
 ##Rotas
 - Login (POST): https://localhost:44368/api/login
